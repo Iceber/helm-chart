@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 #
 image:
-  repository: dockerhub.azk8s.cn/thanosio/thanos
+  repository: thanosio/thanos
   tag: master-2019-12-14-bec86666
   pullPolicy: IfNotPresent
 
@@ -11,20 +11,19 @@ query:
     name: "thanos-query"
     replicaCount: 1
 
-    logLevel: debug
+    logLevel: ""
 
     imagePullSecrets: []
     podLables: {}
 
     replicaLabels: []
-    stores: [dnssrv+_grpc._tcp.prom-thanos-prometheus-server-thanos-grpc-headless.prome.svc,]
+    stores: []
 
     service:
-      type: NodePort
+      type: ClusterIP
       annotations: {}
       labels: {}
       servicePort: 10902
-      nodePort: 30902
 
     resources: {}
       # We usually recommend not to specify default resources and to leave this as a conscious
@@ -47,12 +46,16 @@ query:
 store:
     enabled: false
     name: "thanos-store"
-    logLevel: debug
-    replicaCount: 2
+
+    logLevel: ""
+
+    replicaCount: 1
     podLables: {}
+
     objstore:
-        configMapName: ""
         configFileName: ""
+        configMapName: ""
+
     grpcHeadless:
         servicePort: 10901
         annotations: {}

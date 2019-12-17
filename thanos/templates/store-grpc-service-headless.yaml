@@ -10,7 +10,7 @@ metadata:
       app.kubernetes.io/component: {{ .Values.store.name }}
       helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
       app.kubernetes.io/managed-by: {{ .Release.Service }}
-  name: {{ template "thanos.store.fullname" . }}-grpc-headless
+  name: {{ template "thanos.fullname" . }}-store-grpc-headless
 spec:
   clusterIP: None
   ports:

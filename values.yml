@@ -1,0 +1,24 @@
+image:
+  repository: dockerhub.azk8s.cn/thanosio/thanos
+
+query:
+    logLevel: debug
+
+    replicaLabels: []
+    stores: 
+      - dnssrv+_grpc._tcp.thanos-store-grpc-headless.prome.svc
+      - dnssrv+_grpc._tcp.prom-thanos-prometheus-prome-thanos-grpc-headless.prome.svc
+
+    service:
+      type: NodePort
+      nodePort: 30902
+
+store:
+    enabled: true
+    logLevel: debug
+    objstore:
+        configMapName: "thanos-objstore-s3-config"
+        configFileName: "s3.yml"
+    grpcHeadless:
+        servicePort: 10901
+        annotations: {}

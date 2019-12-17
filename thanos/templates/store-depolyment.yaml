@@ -37,14 +37,14 @@ spec:
           args:
               - store
               - --log.level={{ .Values.store.logLevel }}
-              - --objstore.config-file=/etc/config/{{ .Value.store.objstore.configFileName }}
+              - --objstore.config-file=/etc/config/{{ .Values.store.objstore.configFileName }}
           ports:
               - name: http
                 containerPort:  10902
-                protocol: tcp
+                protocol: TCP
               - name: grpc
                 containerPort: 10901
-                protocol: tcp
+                protocol: TCP
           volumeMounts:
               - name: config-volume
                 mountPath: /etc/config
