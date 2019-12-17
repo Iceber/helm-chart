@@ -1,0 +1,25 @@
+{{- if .Values.store.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    {{ toYaml .Values.store.grpcHeadless.annotations | indent 4 }}
+  labels:
+      app.kubernetes.io/name: {{ template "thanos.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: {{ .Values.store.name }}
+      helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+      app.kubernetes.io/managed-by: {{ .Release.Service }}
+  name: {{ template "thanos.store.fullname" . }}-grpc-headless
+spec:
+  clusterIP: None
+  ports:
+    - name: grpc
+      port: {{ .Values.store.grpcHeadless.servicePort }}
+      protocol: TCP
+      targetPort: 10901
+  selector:
+      app.kubernetes.io/name: {{ template "thanos.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: {{ .Values.store.name }}
+{{- end -}}

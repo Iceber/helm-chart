@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "thanos.fullname" . }}-query
+  labels:
+      app.kubernetes.io/name: {{ template "thanos.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: {{ .Values.query.name }}
+      helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+      app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.query.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ template "thanos.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: {{ .Values.query.name }}
+  template:
+    metadata:
+      labels:
+          app.kubernetes.io/name: {{ template "thanos.name" . }}
+          app.kubernetes.io/instance: {{ .Release.Name }}
+          app.kubernetes.io/component: {{ .Values.query.name }}
+          {{- if .Values.query.podLabels }}
+          {{ toYaml .Values.query.podLabels | nindent 8 }}
+          {{- end }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        - name: {{ template "thanos.name" . }}-query
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+              - query
+              - --log.level={{ .Values.query.logLevel }}
+          {{- range .Values.query.repplicaLabels }}
+              - --query.replica-label={{ . }}
+          {{- end }}
+          {{- range .Values.query.stores }}
+              - --store={{ . }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 10902
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: http
+          resources:
+            {{- toYaml .Values.query.resources | nindent 12 }}
+      {{- with .Values.query.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.query.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.query.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
