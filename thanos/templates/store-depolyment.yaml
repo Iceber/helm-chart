@@ -26,10 +26,6 @@ spec:
           {{ toYaml .Values.store.podLabels | nindent 8 }}
           {{- end }}
     spec:
-    {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
       containers:
         - name: {{ template "thanos.name" . }}-store
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -48,8 +44,23 @@ spec:
           volumeMounts:
               - name: config-volume
                 mountPath: /etc/config
+          resources:
+            {{- toYaml .Values.query.resources | nindent 12 }}
       volumes:
           - name: config-volume
             configMap:
                 name: {{ .Values.store.objstore.configMapName }}
+
+      {{- with .Values.query.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.query.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.query.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
 {{- end -}}

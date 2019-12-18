@@ -25,10 +25,6 @@ spec:
           {{ toYaml .Values.query.podLabels | nindent 8 }}
           {{- end }}
     spec:
-    {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
       containers:
         - name: {{ template "thanos.name" . }}-query
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

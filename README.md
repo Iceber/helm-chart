@@ -96,3 +96,38 @@ store:
         annotations: {}
 ```
 ###### 自动创建 grpc 的 Headless Service
+
+## Configuration
+Parameter | Description | Default
+--------- | ----------- | -------
+`image.repository` | `Thanos container 镜像仓库` | `thanosio/thanos`
+`image.tag` | `Thanos container 镜像标签` | `master-2019-12-14-bec86666`
+`image.pullPolicy` | `Thanos 镜像 pull policy` | `IfNotPresent`
+`query.name` | `Thanos query 容器名称` | `thanos-query`
+`query.replicaCount` | `Thanos query pods 副本数量` | 1
+`query.logLevel` | `Thanos query log level` | ""
+`query.podLabels` | `增加到 Thanos query pods 的标签` | {}
+`query.replicaLabels` | `Thanos query 用来区分 store-api 副本的标签` | []
+`query.stores` | `Thanos store api 的地址` | []
+`query.service.type` | `Thanos http service 类型` | ClusterIP
+`query.service.annotations` | `Thanos http service annotations` | {}
+`query.service.labels` | `Thanos http service labels` | {}
+`query.service.servicePort` | `Thanos http service servicePort` | 10902
+`query.service.nodePort` | `Thanos http service node port 当 query.service.type 为 NodePort 时才有效` | 0
+`query.resource` | `Thanso query pod resource request & limits` | {}
+`query.nodeSelector` | `Thanos query nodeSelector` | {}
+`query.toleration` | `Thanos query toleration` | {}
+`query.affinity` | `Thanos query toleration` | {}
+`store.enabled` | `是否开启Thanos store gateway` | false
+`store.name` | `Thanso store 容器名称` | "thanos-store"
+`sotre.logLevel` | `Thanos store log level" | debug
+`store.replicaCount` | `Thanos store pods 副本数量` | 1
+`store.podLables` | `增加到 Thanos sotre pods 的标签` | {}
+`store.objstore.configFileName` | `Thanos store 对象存储配置文件名称` | ""
+`store.objstore.configMapName` | `Thanos store 对象存储配置文件的ConfigMap` | ""
+`store.grpcHeadless.servicePort` | `Thanos store grpc Headless Service port` | 10901
+`store.grpcHeadless.annotations` | `Thanos store grpc Headless Service annotations` | {}
+`store.resource` | `Thanos store pod resource reuqest & limits` | {}
+`sotre.nodeSelector` | `Thanos sotre nodeSelector` | {}
+`sotre.toleration` | `Thanos sotre toleration` | {}
+`sotre.affinity` | `Thanos sotre toleration` | {}
