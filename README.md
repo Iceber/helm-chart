@@ -2,6 +2,10 @@
 提供 query, store-gateway 组件的 helm chart  
 默认没有开启 store-gateway 组件
 
+---
+
+暂未实现 tls 相关功能，比如额外挂载卷等
+
 
 ## 运行
 
@@ -19,7 +23,6 @@ helm upgrade -n <namespace> -f values.yml thanos ./thanos
 ```
 helm uninstall -n <namespace> thanos
 ```
-
 
 
 ## 配置 query 组件
@@ -79,6 +82,7 @@ data:
             insecure: true
 ```
 ###### 具体的 Thanos 对象存储配置参考：https://thanos.io/storage.md
+#### 使用 [fakes3](https://github.com/jubos/fake-s3) 来进行 s3 存储测试
 #### 开启 store-gateway
 ```
 store:

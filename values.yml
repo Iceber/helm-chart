@@ -14,7 +14,7 @@ query:
       nodePort: 30902
 
 store:
-    enabled: true
+    enabled: false
     logLevel: debug
     objstore:
         configMapName: "thanos-objstore-s3-config"
