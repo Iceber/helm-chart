@@ -10,12 +10,12 @@
 ## 运行
 
 ```
-helm install -n <namespace> -f values.yml thanos ./thanos 
+helm install -n <namespace> -f values.yaml thanos ./thanos 
 ```
 ## 更新
 
 ```
-helm upgrade -n <namespace> -f values.yml thanos ./thanos
+helm upgrade -n <namespace> -f values.yaml thanos ./thanos
 ```
 
 ## 删除

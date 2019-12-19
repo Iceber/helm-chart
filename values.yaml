@@ -6,8 +6,7 @@ query:
 
     replicaLabels: []
     stores: 
-      - dnssrv+_grpc._tcp.thanos-store-grpc-headless.prome.svc
-      - dnssrv+_grpc._tcp.prom-thanos-prometheus-prome-thanos-grpc-headless.prome.svc
+      - dnssrv+_grpc._tcp.prom-thanos-prometheus-server-thanos-grpc-headless.prome.svc
 
     service:
       type: NodePort
